@@ -1,74 +1,69 @@
-#include<iostream>
+#include <iostream>
 
-class quadrilatral
-{
-    private:
-    int nsides;
+class rectangle {
     protected:
-    int lsides;
+    double len,brd;
     public:
-    quadrilatral(){}
-    quadrilatral(int n,int l)
+    rectangle(){}
+    double area()
     {
-        nsides=n;
-        lsides=l;
+        
+        return len*brd;
     }
-    void area()
+    double perimeter()
     {
-        std::cout<<"Area Of Quadritral "<<(lsides*lsides)<<std::endl;
-    }
-    void perimeter()
-    {
-        std::cout<<"Perimeter Of Quadritral "<<(lsides*nsides)<<std::endl;
+        return (len+brd+len+brd);
     }
 };
 
-class rectangle :public quadrilatral
+class WateringCost {
+protected:
+    double wateringRate;
+
+public:
+    WateringCost(){}
+    void calculateWateringCost(double area) {
+        std::cout<<"Watering cost required is "<<(wateringRate*area)<<std::endl;
+    }
+};
+
+class BundhCost {
+protected:
+    double bundhRate;
+
+public:
+    BundhCost(){}
+    void calculateBundhCost(double perimeter) {
+        std::cout<<"Cost for constructing a low mud wall around the field is "<<(bundhRate*perimeter)<<std::endl;
+    }
+};
+
+class Field:public rectangle,public WateringCost,public BundhCost
 {
-    protected:
-    int breadth;
     public:
-    rectangle(){};
-    rectangle(int l,int b)
+    Field(double l,double b,double wr,double br)
     {
-        lsides=l;
-        breadth=b;
-    }
-    void area()
-    {
-        std::cout<<"Area Of Recatngle "<<(lsides*breadth)<<std::endl;
+        wateringRate =wr;
+        bundhRate=br;
+        len=l;
+        brd=b;
+        calculateBundhCost(perimeter());
+        calculateWateringCost(area());
     }
 };
-
-class field :public rectangle
-{
-    private:
-    int c_per_m;
-    public:
-    field(int c,int l,int b)
-    {
-        lsides=l;
-        breadth=b;
-        c_per_m=c;
-    }
-    void costWater()
-    {
-        std::cout<<"Total amount of water need for Water the field of length "<<lsides<<"and "<<breadth<<"is "<<(lsides*breadth*c_per_m);
-    }
-
-};
-
 
 int main()
 {
-    int rate,length,brdth;
-    std::cout<<"Enter the rate of watering for 1_sqm: ";
-    std::cin>>rate;
-    std::cout<<"Enter the Length of field: ";
-    std::cin>>length;
-    std::cout<<"Enter the Brdth of Filed: ";
+
+    double len,brdth,water_rate,wall_rate;
+    std::cout<<"Enter the length of Field "<<std::endl;
+    std::cin>>len;
+    std::cout<<"Enter the Breadth of Field "<<std::endl;
     std::cin>>brdth;
-    field f(rate,length,brdth);
-    f.costWater();
+    std::cout<<"Enter the watering rate per SQ Meter "<<std::endl;
+    std::cin>>water_rate;
+    std::cout<<"Enter the rate to build small wall around field "<<std::endl;
+    std::cin>>wall_rate;
+    Field(len,brdth,water_rate,wall_rate);
     return 0;
 }
